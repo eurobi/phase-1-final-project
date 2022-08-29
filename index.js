@@ -41,25 +41,40 @@ function handlePlayerClick(e){
     createStatCard(targetName, targetId)
 }
 
-function createStatCard(targetName, targetId){
+async function createStatCard(targetName, targetId){
+    //clear search
     const resultsContainer = document.querySelector('#results-container')
-    resultsContainer.innerHTML = `${targetName}`
-    let stats = getStats(targetId)
-    console.log(stats)
-
-}
-
-function getStats(targetId){
-    let playerStats = []
+    const cardContainer = document.querySelector('#stat-card')
+    resultsContainer.innerHTML = ''
+    //make header
+    cardContainer.innerHTML = `
+        <h1 id='name-header'>${targetName}</h1>
+    `
+    //get stats
     let season = 2021
     for(let i=0; i <= 4; i++){
-        fetch(`https://www.balldontlie.io/api/v1/season_averages?season=${season}&player_ids[]=${targetId}`)
+        await fetch(`https://www.balldontlie.io/api/v1/season_averages?season=${season}&player_ids[]=${targetId}`)
             .then((resp) => resp.json())
             .then((seasonStats) => {
-                playerStats.push(seasonStats.data)  
+                if(seasonStats.data.length > 0){
+                    makeSeasonSection(seasonStats.data[0]) 
+                }else{
+                    return
+                }
+
         })
     season -= 1
     }
-    return playerStats
-    
+
 }
+
+function makeSeasonSection(seasonStats){
+    let statCard = document.querySelector('#stat-card');
+    let seasonSection = document.createElement('div');
+    seasonSection.innerHTML = `
+        <p><strong>${seasonStats.season}</strong></p>
+        <p>AST: ${seasonStats.ast}</p>
+    `
+    statCard.appendChild(seasonSection)
+}
+
