@@ -6,6 +6,8 @@ searchForm.addEventListener('submit',handleSearch)
 function handleSearch(e){
     e.preventDefault()
     const resultsContainer = document.querySelector('#results-container')
+    const cardContainer = document.querySelector('#stat-card')
+    cardContainer.innerHTML = ''
     resultsContainer.innerHTML = ''
     fetch(`https://www.balldontlie.io/api/v1/players?search=${e.target[0].value}`)
         .then((resp) => resp.json())
@@ -45,13 +47,10 @@ async function createStatCard(targetName, targetId){
     //clear search
     const resultsContainer = document.querySelector('#results-container')
     const cardContainer = document.querySelector('#stat-card')
-    resultsContainer.innerHTML = ''
-    //make header
-    cardContainer.innerHTML = `
-        <h1 id='name-header'>${targetName}</h1>
-    `
+    resultsContainer.innerHTML = `<h1 id='name-header'>${targetName}</h1>`
+    
     //get stats
-    let season = 2021
+    let season = 2017
     for(let i=0; i <= 4; i++){
         await fetch(`https://www.balldontlie.io/api/v1/season_averages?season=${season}&player_ids[]=${targetId}`)
             .then((resp) => resp.json())
@@ -63,7 +62,7 @@ async function createStatCard(targetName, targetId){
                 }
 
         })
-    season -= 1
+    season += 1
     }
 
 }
@@ -71,9 +70,19 @@ async function createStatCard(targetName, targetId){
 function makeSeasonSection(seasonStats){
     let statCard = document.querySelector('#stat-card');
     let seasonSection = document.createElement('div');
+    seasonSection.className = 'season-card'
     seasonSection.innerHTML = `
         <p><strong>${seasonStats.season}</strong></p>
+        <p>PTS: ${seasonStats.pts}</p>
         <p>AST: ${seasonStats.ast}</p>
+        <p>REB: ${seasonStats.reb}</p>
+        <p>STL: ${seasonStats.stl}</p>
+        <p>BLK: ${seasonStats.blk}</p>
+        <p>3PM: ${seasonStats.fg3m}</p>
+        <p>FG%: ${seasonStats.fg_pct}</p>
+        <p>FT%: ${seasonStats.ft_pct}</p>
+        <p>3P%: ${seasonStats.fg3_pct}</p>
+        <p>GP: ${seasonStats.games_played}</p>
     `
     statCard.appendChild(seasonSection)
 }
