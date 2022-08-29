@@ -15,7 +15,7 @@ function handleSearch(e){
                 playerCard.className = 'player-card'
                 playerCard.id = `${player.id}`
                 playerCard.innerHTML = `
-                    <div class='name'><strong id='${player.id}'>${player.first_name} ${player.last_name}</strong></div>
+                    <div class='name' id='${player.id}'>${player.first_name} ${player.last_name}</div>
                     <div class='position' id='${player.id}' >${player.position}</div>
                     <div class='team' id='${player.id}'>${player.team.abbreviation}</div>
                 `
@@ -26,19 +26,40 @@ function handleSearch(e){
         })
 }
 
+
 // HANDLE CLICK ON PLAYER
 
 function handlePlayerClick(e){
-    console.log(e.target.id)
     const resultsContainer = document.querySelector('#results-container')
-    fetch(`https://www.balldontlie.io/api/v1/season_averages?season=2021&player_ids[]=${e.target.id}`)
-        .then((resp) => resp.json())
-        .then((player) => {console.log(player.data)
-    })
+    let targetName
+    if(e.path.length === 6){
+        targetName = e.path[0].childNodes[1].innerText
+    }else{
+        targetName = e.path[1].childNodes[1].innerText
+    }
+    const targetId = e.target.id
+    createStatCard(targetName, targetId)
 }
 
-// fetch('https://www.balldontlie.io/api/v1/season_averages?player_ids[]=237')
-//     .then((resp) => resp.json())
-//     .then((data) => {
-//         console.log(data)
-//     })
+function createStatCard(targetName, targetId){
+    const resultsContainer = document.querySelector('#results-container')
+    resultsContainer.innerHTML = `${targetName}`
+    let stats = getStats(targetId)
+    console.log(stats)
+
+}
+
+function getStats(targetId){
+    let playerStats = []
+    let season = 2021
+    for(let i=0; i <= 4; i++){
+        fetch(`https://www.balldontlie.io/api/v1/season_averages?season=${season}&player_ids[]=${targetId}`)
+            .then((resp) => resp.json())
+            .then((seasonStats) => {
+                playerStats.push(seasonStats.data)  
+        })
+    season -= 1
+    }
+    return playerStats
+    
+}
