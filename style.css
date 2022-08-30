@@ -72,7 +72,7 @@ body{
 
 .season-card{
     background-color: rgb(63, 63, 63);
-    padding: 25px;
+    padding: 20px;
     width: 80px;
 
 }
@@ -81,8 +81,71 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 #name-header{
     margin: 25px;
+}
+
+#chart-test{
+    background: rgb(63, 63, 63);
+    height: 215px;
+    width: 720px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(255, 89, 0);
+    /* display: none; */
+}
+
+.data-point{
+    background-color: rgb(255, 89, 0);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+#d1{
+    margin-top: 0px;
+}
+
+#d2{
+    margin-top: 200px;
+}
+
+#d3{
+    margin-top: 100px;
+}
+
+#d4{
+    margin-top: 100px;
+}
+
+#d5{
+    margin-top: 100px;
+}
+
+.stat-btn{
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+    margin-top: 16px;
+}
+
+#chart-container{
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
