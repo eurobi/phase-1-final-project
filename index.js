@@ -59,12 +59,26 @@ function createPlayerCard(playerStats, targetName){
     //get needed page elements and add palyer title
     const resultsContainer = document.querySelector('#results-container')
     const cardContainer = document.querySelector('#stat-card')
-    resultsContainer.innerHTML = `<h2 id='name-header'>${targetName}</h2>`
+    resultsContainer.innerHTML = `
+    <div id='name-and-add'>
+        <h2 id='name-header'>${targetName}</h2>
+        <button title='Add to Team' id='add-player-btn'>+</button>
+    </div>
+    `
     console.log(playerStats)
     //create table
     const statTable = document.createElement('table')
+    //add table headers
+    const tableHeaders = document.createElement('tr')
+    tableHeaders.innerHTML = `<th>Stat</th>`
+    for(let year of playerStats){
+        let yearSeason = document.createElement('th')
+        yearSeason.innerText = year['season']
+        tableHeaders.appendChild(yearSeason)
+    }
+    statTable.appendChild(tableHeaders)
+    //add rest of stats
     const tableKey = {
-        season : 'Year',
         pts : 'Points',
         reb : 'Rebounds',
         ast : 'Assists',
@@ -80,7 +94,7 @@ function createPlayerCard(playerStats, targetName){
     for(let category of Object.entries(tableKey)){
         let row = document.createElement('tr')
         let cat = document.createElement('td')
-        cat.innerText = category[1]
+        cat.innerHTML = `<button class='stat-btn'>${category[1]}</button>`
         row.appendChild(cat)
         for(let year of playerStats){
             let yearStat = document.createElement('td')
@@ -89,8 +103,55 @@ function createPlayerCard(playerStats, targetName){
         }
         statTable.appendChild(row)
     }
-    resultsContainer.appendChild(statTable)
+    cardContainer.appendChild(statTable)
+    addStatButtonListeners()
+    addPlayerButtonListener()
+}
 
+function addStatButtonListeners(){
+    const statButtons = document.getElementsByClassName('stat-btn')
+    for(let i = 0; i < statButtons.length; i++){
+        statButtons[i].addEventListener('click', handleStatButtonClick)
+    }
+}
+
+function addPlayerButtonListener(){
+    const addPlayerButton = document.querySelector('#add-player-btn')
+    addPlayerButton.addEventListener('click', handleAddPlayer)
+}
+
+function handleAddPlayer(e){
+    console.log(e.target)
+}
+
+function handleStatButtonClick(e){
+    let currentChart = document.querySelector('#chart-container')
+    if(currentChart !== null){
+        currentChart.remove()
+    }
+    const selectedRow = e.target.parentNode.parentNode
+    const chartTd = document.createElement('td')
+    chartTd.colSpan = 6
+    chartTd.id = "chart-container"
+    const chartDiv = document.createElement('div')
+    chartDiv.id = 'chart-test'
+    for(let i = 1; i < selectedRow.childNodes.length; i++){
+        console.log('ran')
+        let dataPointDiv = document.createElement('div')
+        dataPointDiv.id = `d${i}`
+        dataPointDiv.className = 'data-point'
+        chartDiv.appendChild(dataPointDiv)
+    }
+    chartTd.appendChild(chartDiv)
+    const rowCells = selectedRow.querySelectorAll('td')
+    const rowStats = []
+    console.log(rowCells)
+    for(let ele of rowCells){
+        rowStats.push(ele.innerText)
+    }
+
+    selectedRow.parentNode.insertBefore(chartTd, selectedRow.nextSibling)
+    editChart(rowStats.slice(1))
 }
 
 
@@ -111,7 +172,6 @@ async function getStats(targetName, targetId){
     }
     return stats
 }
-
 
 
 function editChart(stats){
