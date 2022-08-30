@@ -56,11 +56,40 @@ async function handlePlayerClick(e){
 }
 
 function createPlayerCard(playerStats, targetName){
+    //get needed page elements and add palyer title
     const resultsContainer = document.querySelector('#results-container')
     const cardContainer = document.querySelector('#stat-card')
     resultsContainer.innerHTML = `<h2 id='name-header'>${targetName}</h2>`
     console.log(playerStats)
-    console.log(Object.keys(playerStats[0]))
+    //create table
+    const statTable = document.createElement('table')
+    const tableKey = {
+        season : 'Year',
+        pts : 'Points',
+        reb : 'Rebounds',
+        ast : 'Assists',
+        stl : 'Steals',
+        blk : 'Blocks',
+        fg3m : '3 Pointers',
+        fg_pct : 'FG%',
+        ft_pct : 'FT%',
+        fg3_pct: '3PT%',
+        min : 'Minutes',
+        games_played : 'GP'
+    }
+    for(let category of Object.entries(tableKey)){
+        let row = document.createElement('tr')
+        let cat = document.createElement('td')
+        cat.innerText = category[1]
+        row.appendChild(cat)
+        for(let year of playerStats){
+            let yearStat = document.createElement('td')
+            yearStat.innerText = year[category[0]]
+            row.appendChild(yearStat)
+        }
+        statTable.appendChild(row)
+    }
+    resultsContainer.appendChild(statTable)
 
 }
 
@@ -83,71 +112,7 @@ async function getStats(targetName, targetId){
     return stats
 }
 
-// //create stat card for clicked on player
-// async function createStatCard(targetName, targetId){
-//     //clear search and add player name
-//     const resultsContainer = document.querySelector('#results-container')
-//     const cardContainer = document.querySelector('#stat-card')
-//     resultsContainer.innerHTML = `<h1 id='name-header'>${targetName}</h1>`
-//     //make a container for the table headers
-//     createStatCategories()
-//     //get players stats
-//     let season = 2017
-//     for(let i=0; i <= 4; i++){
-//         await fetch(`https://www.balldontlie.io/api/v1/season_averages?season=${season}&player_ids[]=${targetId}`)
-//             .then((resp) => resp.json())
-//             .then((seasonStats) => {
-//                 if(seasonStats.data.length > 0){
-//                     makeSeasonSection(seasonStats.data[0]) 
-//                 }else{
-//                     return
-//                 }
 
-//         })
-//     season += 1
-//     }
-
-// }
-
-// function createStatCategories(){
-//     let statCard = document.querySelector('#stat-card');
-//     let seasonSection = document.createElement('div');
-//     seasonSection.className = 'season-card'
-//     seasonSection.innerHTML = `
-//         <button class='stat-btn'><strong>YEAR:</button>
-//         <button class='stat-btn'><strong>PTS:</strong></button>
-//         <button class='stat-btn'><strong>AST:</strong></button>
-//         <button class='stat-btn'><strong>REB:</strong></button>
-//         <button class='stat-btn'><strong>STL:</strong></button>
-//         <button class='stat-btn'><strong>BLK:</strong></button>
-//         <button class='stat-btn'><strong>3PM:</strong></button>
-//         <button class='stat-btn'><strong>FG%:</strong></button>
-//         <button class='stat-btn'><strong>FT%:</strong></button>
-//         <button class='stat-btn'><strong>3P%:</strong></button>
-//         <button class='stat-btn'><strong>GAP:</strong></button>
-//     `
-//     statCard.appendChild(seasonSection)
-// }
-
-// function makeSeasonSection(seasonStats){
-//     let statCard = document.querySelector('#stat-card');
-//     let seasonSection = document.createElement('div');
-//     seasonSection.className = 'season-card'
-//     seasonSection.innerHTML = `
-//         <p><strong>${seasonStats.season}</strong></p>
-//         <p>${seasonStats.pts}</p>
-//         <p>${seasonStats.ast}</p>
-//         <p>${seasonStats.reb}</p>
-//         <p>${seasonStats.stl}</p>
-//         <p>${seasonStats.blk}</p>
-//         <p>${seasonStats.fg3m}</p>
-//         <p>${seasonStats.fg_pct}</p>
-//         <p>${seasonStats.ft_pct}</p>
-//         <p>${seasonStats.fg3_pct}</p>
-//         <p>${seasonStats.games_played}</p>
-//     `
-//     statCard.appendChild(seasonSection)
-// }
 
 function editChart(stats){
     let i = 0
