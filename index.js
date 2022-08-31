@@ -65,7 +65,6 @@ function createPlayerCard(playerStats, targetName){
         <button title='Add to Team' id='add-player-btn'>+</button>
     </div>
     `
-    console.log(playerStats)
     //create table
     const statTable = document.createElement('table')
     //add table headers
@@ -121,13 +120,44 @@ function addPlayerButtonListener(){
 }
 
 function handleAddPlayer(e){
-    console.log(e.target)
+    //get stats
+    let tableRows = document.getElementsByTagName('tr')
+    let playerName = document.querySelector('h2')
+    let addedPlayerStats = {}
+    addedPlayerStats.Name = playerName.innerText
+    for(let row of tableRows){
+        addedPlayerStats[row.firstChild.innerText] = row.lastChild.innerText
+    }
+    // create team Div
+    const teamDiv = document.createElement('div')
+    teamDiv.id = 'team-div'
+    const body = document.querySelector('body')
+    body.appendChild(teamDiv)
+    // create table
+    let teamTable = document.createElement('table')
+    teamTable.id = 'team-table'
+    let tableHeaders = document.createElement('tr')
+    let tableHeadersList = ['Name','Points','Rebounds','Assists','Steals','Blocks','3 Pointers','FG%','FT%']
+    for(let headerName of tableHeadersList){
+        let header = document.createElement('th')
+        header.innerText = headerName
+        tableHeaders.appendChild(header)
+    }
+    teamTable.appendChild(tableHeaders)
+    let playerRow = document.createElement('tr')
+    for(let statName of tableHeadersList){
+        let stat = document.createElement('td')
+        stat.innerText = addedPlayerStats[statName]
+        playerRow.appendChild(stat)
+    }
+    teamTable.appendChild(playerRow)
+    teamDiv.appendChild(teamTable)
+
 }
 
 function handleStatButtonClick(e){
     let currentChart = document.querySelector('#chart-container')
     if(e.target.className == 'pressed-stat-btn'){
-        console.log('ran')
         currentChart.remove()
         e.target.className = 'stat-btn'
     }
