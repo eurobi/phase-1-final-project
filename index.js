@@ -126,32 +126,52 @@ function handleAddPlayer(e){
 
 function handleStatButtonClick(e){
     let currentChart = document.querySelector('#chart-container')
-    if(currentChart !== null){
-        currentChart.remove()
-    }
-    const selectedRow = e.target.parentNode.parentNode
-    const chartTd = document.createElement('td')
-    chartTd.colSpan = 6
-    chartTd.id = "chart-container"
-    const chartDiv = document.createElement('div')
-    chartDiv.id = 'chart-test'
-    for(let i = 1; i < selectedRow.childNodes.length; i++){
+    if(e.target.className == 'pressed-stat-btn'){
         console.log('ran')
-        let dataPointDiv = document.createElement('div')
-        dataPointDiv.id = `d${i}`
-        dataPointDiv.className = 'data-point'
-        chartDiv.appendChild(dataPointDiv)
+        currentChart.remove()
+        e.target.className = 'stat-btn'
     }
-    chartTd.appendChild(chartDiv)
-    const rowCells = selectedRow.querySelectorAll('td')
-    const rowStats = []
-    console.log(rowCells)
-    for(let ele of rowCells){
-        rowStats.push(ele.innerText)
-    }
+    else{
+        if(currentChart !== null){
+            currentChart.remove()
+        }
+        removePressedButton()
+        createPressedButton(e)
+        const selectedRow = e.target.parentNode.parentNode
+        const chartTd = document.createElement('td')
+        chartTd.colSpan = 6
+        chartTd.id = "chart-container"
+        const chartDiv = document.createElement('div')
+        chartDiv.id = 'chart-test'
+        for(let i = 1; i < selectedRow.childNodes.length; i++){
+            let dataPointDiv = document.createElement('div')
+            dataPointDiv.id = `d${i}`
+            dataPointDiv.className = 'data-point'
+            chartDiv.appendChild(dataPointDiv)
+        }
+        chartTd.appendChild(chartDiv)
+        const rowCells = selectedRow.querySelectorAll('td')
+        const rowStats = []
+        for(let ele of rowCells){
+            rowStats.push(ele.innerText)
+        }
+    
+        selectedRow.parentNode.insertBefore(chartTd, selectedRow.nextSibling)
+        editChart(rowStats.slice(1))
 
-    selectedRow.parentNode.insertBefore(chartTd, selectedRow.nextSibling)
-    editChart(rowStats.slice(1))
+    }
+    
+}
+
+function removePressedButton(){
+    let pressedBtn = document.querySelector('.pressed-stat-btn')
+    if(pressedBtn !== null){
+        pressedBtn.className = 'stat-btn'
+    }
+}
+
+function createPressedButton(e){
+    e.target.className = 'pressed-stat-btn'
 }
 
 

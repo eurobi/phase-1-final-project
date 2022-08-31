@@ -124,7 +124,7 @@ td{
 }
 
 .data-point{
-    background-color: rgb(255, 140, 0);
+    background-color: rgb(255, 255, 255);
     width: 12px;
     height: 12px;
     border-radius: 50%;
@@ -166,8 +166,29 @@ td{
     padding: 5px;
 }
 
+.pressed-stat-btn{
+    background: none;
+	color: black;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    font-weight: 50px;    
+    background-color: rgb(255, 212, 132);
+    width: 150px;
+    padding: 5px;
+
+}
+
 .stat-btn:hover{
     background-color: rgb(255, 212, 132);
+}
+
+.pressed-stat-btn:hover{
+    background-color: white;
 }
 
 #name-and-add{
