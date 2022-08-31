@@ -53,7 +53,12 @@ async function handlePlayerClick(e){
     const targetId = e.target.id
     // getStats
     let playerStats = await getStats(targetName, targetId)
-    createPlayerCard(playerStats, targetName)
+    if(playerStats.length > 0){
+        createPlayerCard(playerStats, targetName)
+    }
+    else{
+        alert('this player has no stats in the last five years that is very very sad :(')
+    }
 }
 
 function createPlayerCard(playerStats, targetName){
