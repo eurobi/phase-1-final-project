@@ -44,7 +44,8 @@ async function handlePlayerClick(e){
     const resultsContainer = document.querySelector('#results-container')
     //find player name and ID
     let targetName
-    if(e.path.length === 6){
+    console.log(e.path)
+    if(e.path.length === 8){
         targetName = e.path[0].childNodes[1].innerText
     }else{
         targetName = e.path[1].childNodes[1].innerText

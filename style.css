@@ -4,6 +4,7 @@ body{
     color: white;
     display: flex;
     justify-content: center;
+    height: 100%;
 }
 
 
@@ -216,18 +217,23 @@ td{
 }
 
 #team-div{
-    border-left: 2px solid orange;
+    border-left: 3px solid rgb(41, 41, 41);
+    border-bottom: 3px solid rgb(41, 41, 41);
     justify-self: flex-end;
-    background-color: gray;
+    background-color: rgb(63, 63, 63);
+    margin-top: -10px;
+    margin-bottom: -10px;
+    height: 1000px
 }
 
 #team-table{
-    width: 100px;
     font-size: 10px;
-    margin-left: 10px;
+    border: none;
+    margin-top: 100px;
+
 }
 
-#team-table.tr{
+#team-table.th{
     background-color: blue;
 }
 
