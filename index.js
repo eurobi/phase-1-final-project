@@ -127,18 +127,9 @@ function addPlayerButtonListener(){
 
 function handleAddPlayer(e){
     //get stats
-    let tableRows = document.getElementsByTagName('tr')
-    let playerName = document.querySelector('h2')
-    let addedPlayerStats = {}
-    addedPlayerStats.Name = playerName.innerText
-    for(let row of tableRows){
-        addedPlayerStats[row.firstChild.innerText] = row.lastChild.innerText
-    }
+    let addedPlayerStats = getOnScreenPlayerStats()
     // create team Div
-    const teamDiv = document.createElement('div')
-    teamDiv.id = 'team-div'
-    const body = document.querySelector('body')
-    body.appendChild(teamDiv)
+    let teamDiv = createTeamDiv()
     // create table
     let teamTable = document.createElement('table')
     teamTable.id = 'team-table'
@@ -160,6 +151,31 @@ function handleAddPlayer(e){
     teamDiv.appendChild(teamTable)
 
 }
+
+function getOnScreenPlayerStats(){
+    let tableRows = document.getElementsByTagName('tr')
+    let playerName = document.querySelector('h2')
+    let addedPlayerStats = {}
+    addedPlayerStats.Name = playerName.innerText
+    for(let row of tableRows){
+        addedPlayerStats[row.firstChild.innerText] = row.lastChild.innerText
+    }
+    return addedPlayerStats
+}
+
+function createTeamDiv(){
+    let teamDiv = document.querySelector('#team-div')
+    if(teamDiv === null){
+        console.log('ran')
+        teamDiv = document.createElement('div')
+        teamDiv.id = 'team-div'
+        const body = document.querySelector('body')
+        body.appendChild(teamDiv)
+    }
+    return teamDiv
+
+}
+
 
 function handleStatButtonClick(e){
     let currentChart = document.querySelector('#chart-container')
@@ -194,9 +210,7 @@ function handleStatButtonClick(e){
     
         selectedRow.parentNode.insertBefore(chartTd, selectedRow.nextSibling)
         editChart(rowStats.slice(1))
-
     }
-    
 }
 
 function removePressedButton(){
