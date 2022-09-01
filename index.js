@@ -98,6 +98,7 @@ function createPlayerCard(playerStats, targetName){
     }
     for(let category of Object.entries(tableKey)){
         let row = document.createElement('tr')
+        row.className = 'stat-row'
         let cat = document.createElement('td')
         cat.innerHTML = `<button class='stat-btn'>${category[1]}</button>`
         row.appendChild(cat)
@@ -126,10 +127,45 @@ function addPlayerButtonListener(){
 }
 
 function handleAddPlayer(e){
-    let addedPlayerStats = getOnScreenPlayerStats()
-    let teamDiv = createTeamDiv()
-    createTeamTable(addedPlayerStats,teamDiv)
+    let teamDiv = document.querySelector('#team-div')
+    if(teamDiv === null){
+        let addedPlayerStats = getOnScreenPlayerStats()
+        teamDiv = createTeamDiv()
+        createTeamTable(addedPlayerStats,teamDiv)
+    }
+    else{
+        removeSumRow()
+        let addedPlayerStats = getOnScreenPlayerStats()
+        addToTeamTable(addedPlayerStats,teamDiv)
+    }
+    addSumRow()
 
+}
+
+function addSumRow(){
+    const teamTable = document.querySelector('#team-table')
+    const sumRow = document.createElement('tr')
+    sumRow.id = 'sum-row'
+    // add content
+    teamTable.appendChild(sumRow)
+}
+
+function removeSumRow(){
+    let sumRow = document.querySelector('#sum-row')
+    sumRow.remove()
+}
+
+function addToTeamTable(addedPlayerStats, teamDiv){
+    let teamTable = document.querySelector('#team-table')
+    let statList = ['Name','Points','Rebounds','Assists','Steals','Blocks','3 Pointers','FG%','FT%']
+    let playerRow = document.createElement('tr')
+    for(let statName of statList){
+        let stat = document.createElement('td')
+        stat.innerText = addedPlayerStats[statName]
+        playerRow.appendChild(stat)
+    }
+    teamTable.appendChild(playerRow)
+    teamDiv.appendChild(teamTable)
 }
 
 function createTeamTable(addedPlayerStats,teamDiv){
@@ -154,12 +190,15 @@ function createTeamTable(addedPlayerStats,teamDiv){
 }
 
 function getOnScreenPlayerStats(){
-    let tableRows = document.getElementsByTagName('tr')
-    let playerName = document.querySelector('h2')
+    let tableRows = document.getElementsByClassName('stat-row')
+    let playerName = document.querySelector('#name-header')
     let addedPlayerStats = {}
     addedPlayerStats.Name = playerName.innerText
     for(let row of tableRows){
+        console.log(row.firstChild.innerText)
+        console.log(row.lastChild.innerText)
         addedPlayerStats[row.firstChild.innerText] = row.lastChild.innerText
+        
     }
     return addedPlayerStats
 }
