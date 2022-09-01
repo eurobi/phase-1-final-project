@@ -146,7 +146,8 @@ function addSumRow(){
     const teamTable = document.querySelector('#team-table')
     const sumRow = document.createElement('tr')
     sumRow.id = 'sum-row'
-    // add content
+    // add content to row
+
     teamTable.appendChild(sumRow)
 }
 
@@ -206,9 +207,12 @@ function getOnScreenPlayerStats(){
 function createTeamDiv(){
     let teamDiv = document.querySelector('#team-div')
     if(teamDiv === null){
-        console.log('ran')
         teamDiv = document.createElement('div')
         teamDiv.id = 'team-div'
+        const teamDivHeader = document.createElement('h3')
+        teamDivHeader.id = 'team-div-header'
+        teamDivHeader.innerText = 'My Team'
+        teamDiv.appendChild(teamDivHeader)
         const body = document.querySelector('body')
         body.appendChild(teamDiv)
     }
