@@ -156,7 +156,7 @@ function addSumRow(){
         let statNumbers = getStatElements.map((stat) => parseFloat(stat.innerText))
         let sum = statNumbers.reduce((partialSum, a) => partialSum + a, 0)
         let totalCell = document.createElement('th')
-        totalCell.innerText = sum
+        totalCell.innerText = sum.toFixed(2)
         sumRow.appendChild(totalCell)
     }
     for(stat of statListAvg){
@@ -164,7 +164,7 @@ function addSumRow(){
         let statNumbers = getStatElements.map((stat) => parseFloat(stat.innerText))
         let sum = statNumbers.reduce((partialSum, a) => partialSum + a, 0)
         let totalCell = document.createElement('th')
-        totalCell.innerText = sum / statNumbers.length
+        totalCell.innerText = (sum / statNumbers.length).toFixed(2)
         sumRow.appendChild(totalCell)
     }
 
