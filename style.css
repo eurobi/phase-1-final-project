@@ -228,7 +228,8 @@ td{
 
 #team-table{
     font-size: 10px;
-    border: none;
+    border-collapse: collapse;
+    border-color: transparent;
 
 }
 
@@ -243,4 +244,12 @@ td{
 #team-div-header{
     text-align: center;
     margin-top: 100px;
+}
+
+#sum-row{
+    border-top: 1px solid white;
+}
+
+#team-table-header{
+    border-bottom: 1px solid white
 }

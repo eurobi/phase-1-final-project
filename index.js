@@ -44,7 +44,6 @@ async function handlePlayerClick(e){
     const resultsContainer = document.querySelector('#results-container')
     //find player name and ID
     let targetName
-    console.log(e.path)
     if(e.path.length === 8){
         targetName = e.path[0].childNodes[1].innerText
     }else{
@@ -89,7 +88,7 @@ function createPlayerCard(playerStats, targetName){
         ast : 'Assists',
         stl : 'Steals',
         blk : 'Blocks',
-        fg3m : '3 Pointers',
+        fg3m : '3PT',
         fg_pct : 'FG%',
         ft_pct : 'FT%',
         fg3_pct: '3PT%',
@@ -147,6 +146,27 @@ function addSumRow(){
     const sumRow = document.createElement('tr')
     sumRow.id = 'sum-row'
     // add content to row
+    let statListSum = ['Points','Rebounds','Assists','Steals','Blocks','3PT']
+    let statListAvg = ['FG%','FT%']
+    let totalHeader = document.createElement('th')
+    totalHeader.innerText = 'TOTAL'
+    sumRow.appendChild(totalHeader)
+    for(stat of statListSum){
+        let getStatElements = [...(document.getElementsByClassName(`stat-${stat}`))]
+        let statNumbers = getStatElements.map((stat) => parseFloat(stat.innerText))
+        let sum = statNumbers.reduce((partialSum, a) => partialSum + a, 0)
+        let totalCell = document.createElement('th')
+        totalCell.innerText = sum
+        sumRow.appendChild(totalCell)
+    }
+    for(stat of statListAvg){
+        let getStatElements = [...(document.getElementsByClassName(`stat-${stat}`))]
+        let statNumbers = getStatElements.map((stat) => parseFloat(stat.innerText))
+        let sum = statNumbers.reduce((partialSum, a) => partialSum + a, 0)
+        let totalCell = document.createElement('th')
+        totalCell.innerText = sum / statNumbers.length
+        sumRow.appendChild(totalCell)
+    }
 
     teamTable.appendChild(sumRow)
 }
@@ -158,11 +178,13 @@ function removeSumRow(){
 
 function addToTeamTable(addedPlayerStats, teamDiv){
     let teamTable = document.querySelector('#team-table')
-    let statList = ['Name','Points','Rebounds','Assists','Steals','Blocks','3 Pointers','FG%','FT%']
+    let statList = ['Name','Points','Rebounds','Assists','Steals','Blocks','3PT','FG%','FT%']
     let playerRow = document.createElement('tr')
+    playerRow.className = 'player-row'
     for(let statName of statList){
         let stat = document.createElement('td')
         stat.innerText = addedPlayerStats[statName]
+        stat.className = `stat-${statName}`
         playerRow.appendChild(stat)
     }
     teamTable.appendChild(playerRow)
@@ -173,7 +195,8 @@ function createTeamTable(addedPlayerStats,teamDiv){
     let teamTable = document.createElement('table')
     teamTable.id = 'team-table'
     let tableHeaders = document.createElement('tr')
-    let tableHeadersList = ['Name','Points','Rebounds','Assists','Steals','Blocks','3 Pointers','FG%','FT%']
+    tableHeaders.id = 'team-table-header'
+    let tableHeadersList = ['Name','Points','Rebounds','Assists','Steals','Blocks','3PT','FG%','FT%']
     for(let headerName of tableHeadersList){
         let header = document.createElement('th')
         header.innerText = headerName
@@ -181,8 +204,10 @@ function createTeamTable(addedPlayerStats,teamDiv){
     }
     teamTable.appendChild(tableHeaders)
     let playerRow = document.createElement('tr')
+    playerRow.className = 'player-row'
     for(let statName of tableHeadersList){
         let stat = document.createElement('td')
+        stat.className = `stat-${statName}`
         stat.innerText = addedPlayerStats[statName]
         playerRow.appendChild(stat)
     }
@@ -196,8 +221,6 @@ function getOnScreenPlayerStats(){
     let addedPlayerStats = {}
     addedPlayerStats.Name = playerName.innerText
     for(let row of tableRows){
-        console.log(row.firstChild.innerText)
-        console.log(row.lastChild.innerText)
         addedPlayerStats[row.firstChild.innerText] = row.lastChild.innerText
         
     }
