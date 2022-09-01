@@ -126,11 +126,13 @@ function addPlayerButtonListener(){
 }
 
 function handleAddPlayer(e){
-    //get stats
     let addedPlayerStats = getOnScreenPlayerStats()
-    // create team Div
     let teamDiv = createTeamDiv()
-    // create table
+    createTeamTable(addedPlayerStats,teamDiv)
+
+}
+
+function createTeamTable(addedPlayerStats,teamDiv){
     let teamTable = document.createElement('table')
     teamTable.id = 'team-table'
     let tableHeaders = document.createElement('tr')
@@ -149,7 +151,6 @@ function handleAddPlayer(e){
     }
     teamTable.appendChild(playerRow)
     teamDiv.appendChild(teamTable)
-
 }
 
 function getOnScreenPlayerStats(){
@@ -172,8 +173,8 @@ function createTeamDiv(){
         const body = document.querySelector('body')
         body.appendChild(teamDiv)
     }
+    
     return teamDiv
-
 }
 
 
