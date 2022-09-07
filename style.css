@@ -59,10 +59,10 @@ body{
     width: 75%
 }
 
-/* .player-card:hover{
+.player-card:hover{
     background-color: rgb(255, 212, 132);
     
-} */
+}
 
 .name{
     margin-right: 20px;
@@ -187,13 +187,13 @@ td{
 
 }
 
-/* .stat-btn:hover{
+.stat-btn:hover{
     background-color: rgb(255, 212, 132);
-} */
+}
 
-/* .pressed-stat-btn:hover{
+.pressed-stat-btn:hover{
     background-color: white;
-} */
+}
 
 #name-and-add{
     display: flex;

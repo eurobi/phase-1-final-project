@@ -38,10 +38,14 @@ function displaySearchResult(e, player){
     `
     // add listener for player card
     playerCard.addEventListener('click',handlePlayerClick)
-    playerCard.addEventListener('touchstart', handlePlayerClick)
+    playerCard.addEventListener('touchend', handleTouch)
     resultsContainer.appendChild(playerCard)
     // clear search box
     e.target[0].value = ''
+}
+
+function handleTouch(){
+    alert('worked')
 }
 
 
