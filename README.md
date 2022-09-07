@@ -28,6 +28,6 @@ STAT CLICK
 on each stat category we add an event listener for click.  On click, a graph div is added in the table that contains a chart plotting that stat over the last 5 years.  The margin-top for each data point is based on the stat versus the max. clicking on a different stat will clear the old graph and create a new one. if the same stat is clicked twice we remove that graph.
 
 ADD PLAYER CLICK
-There is an event listener on the add player button which creates a side-bar and displays a new table.  The added players most recent years stats will be added to this table and the sum/avg of each stat is displayed.
+There is an event listener on the add player button which creates a side-bar and displays a new table.  The added players most recent years stats will be pulled from the table and added to the new table and the sum/avg of each stat is displayed.
 
 

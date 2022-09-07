@@ -1,7 +1,12 @@
 //SEARCH FOR PLAYERS
 //form submission event listener
-const searchForm = document.querySelector('#search-form')
-searchForm.addEventListener('submit',handleSearch)
+document.addEventListener('DOMContentLoaded',onLoad)
+
+function onLoad(){
+    const searchForm = document.querySelector('#search-form')
+    searchForm.addEventListener('submit',handleSearch)
+}
+
 
 // handle search submit
 function handleSearch(e){
@@ -33,6 +38,7 @@ function displaySearchResult(e, player){
     `
     // add listener for player card
     playerCard.addEventListener('click',handlePlayerClick)
+    playerCard.addEventListener('touchstart', handlePlayerClick)
     resultsContainer.appendChild(playerCard)
     // clear search box
     e.target[0].value = ''
@@ -51,13 +57,31 @@ async function handlePlayerClick(e){
     }
     const targetId = e.target.id
     // getStats
-    let playerStats = await getStats(targetName, targetId)
+    let playerStats = await getStats(targetId)
     if(playerStats.length > 0){
         createPlayerCard(playerStats, targetName)
     }
     else{
         alert('this player has no stats in the last five years that is very very sad :(')
     }
+}
+
+async function getStats(targetId){
+    let season = 2017
+    let stats = []
+    for(let i=0; i <= 4; i++){
+        await fetch(`https://www.balldontlie.io/api/v1/season_averages?season=${season}&player_ids[]=${targetId}`)
+            .then((resp) => resp.json())
+            .then((seasonStats) => {
+                if(seasonStats.data.length > 0){
+                    stats.push(seasonStats.data[0]) 
+                }else{
+                    return
+                }
+        })
+    season += 1
+    }
+    return stats
 }
 
 function createPlayerCard(playerStats, targetName){
@@ -292,23 +316,6 @@ function createPressedButton(e){
 }
 
 
-async function getStats(targetName, targetId){
-    let season = 2017
-    let stats = []
-    for(let i=0; i <= 4; i++){
-        await fetch(`https://www.balldontlie.io/api/v1/season_averages?season=${season}&player_ids[]=${targetId}`)
-            .then((resp) => resp.json())
-            .then((seasonStats) => {
-                if(seasonStats.data.length > 0){
-                    stats.push(seasonStats.data[0]) 
-                }else{
-                    return
-                }
-        })
-    season += 1
-    }
-    return stats
-}
 
 
 function editChart(stats){
