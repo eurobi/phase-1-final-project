@@ -38,15 +38,11 @@ function displaySearchResult(e, player){
     `
     // add listener for player card
     playerCard.addEventListener('click',handlePlayerClick)
-    playerCard.addEventListener('touchend', handleTouch)
     resultsContainer.appendChild(playerCard)
     // clear search box
     e.target[0].value = ''
 }
 
-function handleTouch(){
-    alert('worked')
-}
 
 
 // HANDLE CLICK ON PLAYER
@@ -54,10 +50,10 @@ async function handlePlayerClick(e){
     const resultsContainer = document.querySelector('#results-container')
     //find player name and ID
     let targetName
-    if(e.path.length === 8){
-        targetName = e.path[0].childNodes[1].innerText
+    if(e.composedPath().length === 8){
+        targetName = e.composedPath()[0].childNodes[1].innerText
     }else{
-        targetName = e.path[1].childNodes[1].innerText
+        targetName = e.composedPath()[1].childNodes[1].innerText
     }
     const targetId = e.target.id
     // getStats
