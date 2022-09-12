@@ -18,7 +18,7 @@ If the user wants to add that player to their 'team', they can click the plus bu
 
 # FUNCTIONALITY - HOW IT WORKS
 
-SEARCH
+# SEARCH
 The search form has a submit event listener that takes the user input and runs a GET request to the 'BallDontLie' API for players matching the search query.  for each player in the results we create a player card that displays in a search results container on the page.
 
 # PLAYER CLICK
