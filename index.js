@@ -216,17 +216,20 @@ function addToTeamTable(addedPlayerStats, teamDiv){
 }
 
 function createTeamTable(addedPlayerStats,teamDiv){
+    // create team table element
     let teamTable = document.createElement('table')
     teamTable.id = 'team-table'
     let tableHeaders = document.createElement('tr')
     tableHeaders.id = 'team-table-header'
     let tableHeadersList = ['Name','Points','Rebounds','Assists','Steals','Blocks','3PT','FG%','FT%']
+    //create headers
     for(let headerName of tableHeadersList){
         let header = document.createElement('th')
         header.innerText = headerName
         tableHeaders.appendChild(header)
     }
     teamTable.appendChild(tableHeaders)
+    // create player row
     let playerRow = document.createElement('tr')
     playerRow.className = 'player-row'
     for(let statName of tableHeadersList){
